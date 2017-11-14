@@ -13,10 +13,12 @@ public class ModelEvent extends ActionEvent{
 
     private ArrayList<Card> player_hand;
     private ArrayList<Card> dealer_hand;
+    private int player_money;
 
-    public ModelEvent(Object source, int id, String message, ArrayList<Card> player_hand, ArrayList<Card> dealer_hand) {
+    public ModelEvent(Object source, int id, String message, ArrayList<Card> player_hand, int player_money, ArrayList<Card> dealer_hand) {
         super(source, id, message);
         this.player_hand = player_hand;
+        this.player_money = player_money;
         this.dealer_hand = dealer_hand;
         System.out.println("Event Created.");
     }

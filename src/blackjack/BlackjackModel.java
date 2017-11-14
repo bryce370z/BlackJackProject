@@ -11,12 +11,21 @@ public class BlackjackModel extends AbstractModel{
 	//TODO Initialize Game
 	public void startGame(){
 		player.setHand(new ArrayList<Card>(Arrays.asList(deck.generateHand())));
+		player.setMoney(0);
 		dealer.setHand(new ArrayList<Card>(Arrays.asList(deck.generateHand())));
-		System.out.println("Model Activated.");
-        ModelEvent me = new ModelEvent(this, 1, "", player.getHand(), dealer.getHand());
+		System.out.println("Model: startGame.");
+        ModelEvent me = new ModelEvent(this, 1, "", player.getHand(), player.getMoney(), dealer.getHand());
         notifyChanged(me);
 	}
 	// TODO Make method to update Player hand
+	public void Hit(){
+		ArrayList<Card> current_hand = player.getHand();
+		current_hand.add(deck.getNextCard());
+		player.setHand(current_hand);
+		System.out.println("Model: Hit.");
+		ModelEvent me = new ModelEvent(this, 2, "", player.getHand(), player.getMoney(), dealer.getHand());
+		notifyChanged(me);
+	}
 	
 	// TODO Make method to update Dealer hand
 	

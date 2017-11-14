@@ -40,7 +40,7 @@ public class BlackjackView extends JFrameView{
 		for(int i = 0; i < player_card_images.length; i++){
 			JLabel label = new JLabel();
 			label.setSize(50,75);
-			label.setLocation(100 + offset, 400);
+			label.setLocation(20 + offset, 400);
 			buttonPanel.add(label);
 			player_card_images[i] = label;
 			offset += 70;
@@ -50,7 +50,7 @@ public class BlackjackView extends JFrameView{
 		for(int i = 0; i < dealer_card_images.length; i++){
 			JLabel label = new JLabel();
 			label.setSize(50,75);
-			label.setLocation(100 + offset, 100);
+			label.setLocation(20 + offset, 100);
 			buttonPanel.add(label);
 			dealer_card_images[i] = label;
 			offset += 70;
@@ -84,7 +84,7 @@ public class BlackjackView extends JFrameView{
 		// add components to frame
 		frame.add(buttonPanel);
 	    frame.setDefaultCloseOperation(3);
-	    frame.setSize(600, 600);
+	    frame.setSize(720, 600);
 	    frame.setVisible(true);
 	    
 		pack();
