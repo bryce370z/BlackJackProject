@@ -1,7 +1,6 @@
 package blackjack;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 import mvc.*;
 
@@ -23,19 +22,21 @@ public class BlackjackModel extends AbstractModel{
 		updateScore(player, player_card2);
 		updateScore(dealer, dealer_card1);
 		updateScore(dealer, dealer_card2);
-        ModelEvent me = new ModelEvent(this, 1, "", player_card1, player.getMoney(), player.getName(), winner);
+		evalPersonScore(player);
+		evalPersonScore(dealer);
+        ModelEvent me = new ModelEvent(this, 1, "", player_card1, player.getMoney(), player.getName(), winner, player.getScore(), dealer.getScore());
         notifyChanged(me);
-        me = new ModelEvent(this, 1, "", player_card2, player.getMoney(), player.getName(), winner);
+        me = new ModelEvent(this, 1, "", player_card2, player.getMoney(), player.getName(), winner, player.getScore(), dealer.getScore());
         notifyChanged(me);
-        me = new ModelEvent(this, 1, "", dealer_card1, player.getMoney(), dealer.getName(), winner);
+        me = new ModelEvent(this, 1, "", dealer_card1, player.getMoney(), dealer.getName(), winner, player.getScore(), dealer.getScore());
         notifyChanged(me);
-        me = new ModelEvent(this, 1, "", dealer_card2, player.getMoney(), dealer.getName(), winner);
+        me = new ModelEvent(this, 1, "", dealer_card2, player.getMoney(), dealer.getName(), winner, player.getScore(), dealer.getScore());
         notifyChanged(me);
 		// System.out.println("Model: startGame.");
 	}
 	// TODO Make method to update hand
 	public void Hit(Person person){
-		person.setStayed(false);
+		// person.setStayed(false);
 		ArrayList<Card> current_hand = person.getHand();
 		Card next_card = deck.getNextCard();
 		updateScore(person, next_card);
@@ -43,7 +44,7 @@ public class BlackjackModel extends AbstractModel{
 		current_hand.add(next_card);
 		person.setHand(current_hand);
 		// System.out.println("Model: Hit.");
-		ModelEvent me = new ModelEvent(this, 2, "", next_card, player.getMoney(), person.getName(), winner);
+		ModelEvent me = new ModelEvent(this, 2, "", next_card, player.getMoney(), person.getName(), winner, player.getScore(), dealer.getScore());
 		notifyChanged(me);
 	}
 	
@@ -58,30 +59,23 @@ public class BlackjackModel extends AbstractModel{
 		System.out.println("Model: dealerHit.");
 	}
 	
-	public void Stay(Person person){
-		person.setStayed(true);
-		evalPersonScore(person);
+	public void Stay(){
+		player.setStayed(true);
+		dealerDecision();
 		// System.out.println("Model: Stay.");
 	}
 	
-	public void playerStay(){
-		Stay(player);
-		System.out.println("Model: playerStay.");
-		dealerDecision();
-	}
-	
-	public void dealerStay(){
-		Stay(dealer);
-		System.out.println("Model: dealerStay.");
-	}
-	
-	public void dealerDecision(){
-		
+	public void dealerDecision(){	
 		if(playerGreaterOrEqual()){
-			dealerHit();
-		}
-		else{
-			dealerStay();
+			if(player.getStayed() == false && player.getScore() < 21){
+				dealerHit();
+			}
+			if(player.getStayed()){
+				dealer.setFinished(true);
+				while(playerGreaterOrEqual()){
+					dealerHit();
+				}
+			}
 		}
 	}
 	
@@ -117,7 +111,7 @@ public class BlackjackModel extends AbstractModel{
 			winner = other_name;
 		}
 		else{
-			if(dealer.getStayed() && player.getStayed()){
+			if(dealer.getFinished() && player.getStayed()){
 				if(score > other_score){
 					winner = name;
 				}
@@ -128,9 +122,6 @@ public class BlackjackModel extends AbstractModel{
 		}
 		// System.out.println("THE WINNER IS: " + winner);
 		
-	}
-	public Player getPlayer(){
-		return this.player;
 	}
 	
 }

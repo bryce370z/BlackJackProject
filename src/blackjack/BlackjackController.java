@@ -30,7 +30,7 @@ public class BlackjackController extends AbstractController{
 		case BlackjackView.STAY:
 			System.out.println("Controller: STAY.");
 			if(started){
-				model.playerStay();
+				model.Stay();
 			}
 			break;
 		}

@@ -6,7 +6,6 @@ public abstract class Person {
 	private int score;
 	private ArrayList<Card> hand;
 	private String name;
-	private boolean stayed;
 		
 	public void setScore(int score){
 		this.score = score;
@@ -30,14 +29,6 @@ public abstract class Person {
 	
 	public String getName(){
 		return this.name;
-	}
-	
-	public void setStayed(boolean stayed){
-		this.stayed = stayed;
-	}
-	
-	public boolean getStayed(){
-		return this.stayed;
 	}
 		
 }

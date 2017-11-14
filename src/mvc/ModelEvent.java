@@ -14,15 +14,19 @@ public class ModelEvent extends ActionEvent{
 
     private Card new_card;
     private int player_money;
-    String card_owner;
-    String winner;
-
-    public ModelEvent(Object source, int id, String message, Card new_card, int player_money, String card_owner, String winner) {
+    private String card_owner;
+    private String winner;
+    private int player_score;
+    private int dealer_score;
+    
+    public ModelEvent(Object source, int id, String message, Card new_card, int player_money, String card_owner, String winner, int player_score, int dealer_score) {
         super(source, id, message);
         this.new_card = new_card;
         this.player_money = player_money;
         this.card_owner = card_owner;
         this.winner = winner;
+        this.player_score = player_score;
+        this.dealer_score = dealer_score;
         // System.out.println("Event Created.");
     }
     
@@ -40,6 +44,14 @@ public class ModelEvent extends ActionEvent{
     
     public String getWinner(){
     	return this.winner;
+    }
+    
+    public int getPlayer_Score(){
+    	return this.player_score;
+    }
+    
+    public int getDealer_Score(){
+    	return this.dealer_score;
     }
     
 }
