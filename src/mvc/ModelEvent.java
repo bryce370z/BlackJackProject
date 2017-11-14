@@ -2,6 +2,7 @@ package mvc;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import blackjack.Card;
 
@@ -14,13 +15,15 @@ public class ModelEvent extends ActionEvent{
     private Card new_card;
     private int player_money;
     String card_owner;
+    String winner;
 
-    public ModelEvent(Object source, int id, String message, Card new_card, int player_money, String card_owner) {
+    public ModelEvent(Object source, int id, String message, Card new_card, int player_money, String card_owner, String winner) {
         super(source, id, message);
         this.new_card = new_card;
         this.player_money = player_money;
         this.card_owner = card_owner;
-        System.out.println("Event Created.");
+        this.winner = winner;
+        // System.out.println("Event Created.");
     }
     
     public Card getNew_Card(){
@@ -33,6 +36,10 @@ public class ModelEvent extends ActionEvent{
     
     public int getPlayer_Money(){
     	return this.player_money;
+    }
+    
+    public String getWinner(){
+    	return this.winner;
     }
     
 }

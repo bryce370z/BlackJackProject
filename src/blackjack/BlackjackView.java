@@ -23,22 +23,25 @@ public class BlackjackView extends JFrameView{
 	private JLabel[] dealer_card_images = new JLabel[10];
 	private JLabel[] player_card_images = new JLabel[10];
 	
-	private int player_card_index;
-	private int dealer_card_index;
+	private int player_card_index = 0;
+	private int dealer_card_index = 0;
+	
+	public JLabel display_winner = new JLabel();
 	
 	//JLabel dealer_card1 = new JLabel();
 
 	public BlackjackView(BlackjackModel model, BlackjackController controller) {
 		super(model, controller);
-		player_card_index = 0;
-		dealer_card_index = 0;
-		// initialize frame
-		JFrame frame = new JFrame();
 		
 		// initialize JPanel and handler
-		JPanel buttonPanel = new JPanel();
+		JPanel Content = new JPanel();
 		Handler handler = new Handler();
-		buttonPanel.setLayout(null);
+		Content.setLayout(null);
+		
+		// display text for winner
+		display_winner.setLocation(260, 300);
+		display_winner.setSize(100, 100);
+		Content.add(display_winner);
 		
 		// display hand images
 		int offset = 0;
@@ -46,7 +49,7 @@ public class BlackjackView extends JFrameView{
 			JLabel label = new JLabel();
 			label.setSize(50,75);
 			label.setLocation(20 + offset, 400);
-			buttonPanel.add(label);
+			Content.add(label);
 			player_card_images[i] = label;
 			offset += 70;
 		}
@@ -56,7 +59,7 @@ public class BlackjackView extends JFrameView{
 			JLabel label = new JLabel();
 			label.setSize(50,75);
 			label.setLocation(20 + offset, 100);
-			buttonPanel.add(label);
+			Content.add(label);
 			dealer_card_images[i] = label;
 			offset += 70;
 		}
@@ -82,17 +85,17 @@ public class BlackjackView extends JFrameView{
 		startButton.addActionListener(handler);
 		
 		// add buttons to panel
-		buttonPanel.add(stayButton);
-		buttonPanel.add(hitButton);
-		buttonPanel.add(startButton);
+		Content.add(stayButton);
+		Content.add(hitButton);
+		Content.add(startButton);
 		
 		// add components to frame
-		frame.add(buttonPanel);
-	    frame.setDefaultCloseOperation(3);
-	    frame.setSize(720, 600);
-	    frame.setVisible(true);
+		add(Content);
+	    setDefaultCloseOperation(3);
+	    setSize(720, 600);
+	    setVisible(true);
 	    
-		pack();
+		// pack();
 	}
 	
 	public ImageIcon ScaleImage(JLabel label, String img_path) throws IOException{
@@ -110,7 +113,7 @@ public class BlackjackView extends JFrameView{
 		String card_owner = event.getCard_Owner();
 		String img_path  = event.getNew_Card().getImg_Path();
 		JLabel label = new JLabel();
-		System.out.println(player_card_index);
+		// System.out.println(player_card_index);
     	try{
     		switch(card_owner){
     		case "Player":
@@ -124,22 +127,18 @@ public class BlackjackView extends JFrameView{
     			dealer_card_index++;
     			break;
     		}
-    		/*
-    		for(int i = 0; i < player_hand.size(); i++){
-    			String img_path = player_hand.get(i).getImg_Path();
-    			JLabel label = player_card_images[i];
-    			label.setIcon(ScaleImage(label, img_path));
-    		}
-    		
-    		for(int i = 0; i < dealer_hand.size(); i++){
-    			String img_path = dealer_hand.get(i).getImg_Path();
-    			JLabel label = dealer_card_images[i];
-    			label.setIcon(ScaleImage(label, img_path));
-    		}
-    		*/
     		
     	} catch(IOException e){
     		System.out.println("IOException");
+    	}
+    	String winner = event.getWinner();
+    	if(winner.equals("Player")){
+    		display_winner.setText("Player Wins");
+    		// System.out.println("WINNER:" + winner);
+    	}
+    	if(winner.equals("Dealer")){
+    		display_winner.setText("Dealer Wins");
+    		// System.out.println("WINNER:" + winner);
     	}
     }
 	

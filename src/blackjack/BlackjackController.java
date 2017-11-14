@@ -12,24 +12,25 @@ public class BlackjackController extends AbstractController{
 	}
 	
 	public void operation(String op){
+		BlackjackModel model = ((BlackjackModel)getModel());
 		switch(op){
 		case BlackjackView.START:
 			System.out.println("Controller: START.");
 			if(started == false){
-				((BlackjackModel)getModel()).startGame();
+				model.startGame();
 			}
 			started = true;
 			break;
 		case BlackjackView.HIT:
 			System.out.println("Controller: HIT.");
 			if(started){
-				((BlackjackModel)getModel()).Hit(((BlackjackModel)getModel()).getPlayer());
+				model.playerHit();
 			}
 			break;
 		case BlackjackView.STAY:
 			System.out.println("Controller: STAY.");
 			if(started){
-				((BlackjackModel)getModel()).Stay();
+				model.playerStay();
 			}
 			break;
 		}
