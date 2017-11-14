@@ -11,24 +11,28 @@ import blackjack.Card;
  */
 public class ModelEvent extends ActionEvent{
 
-    private ArrayList<Card> player_hand;
-    private ArrayList<Card> dealer_hand;
+    private Card new_card;
     private int player_money;
+    String card_owner;
 
-    public ModelEvent(Object source, int id, String message, ArrayList<Card> player_hand, int player_money, ArrayList<Card> dealer_hand) {
+    public ModelEvent(Object source, int id, String message, Card new_card, int player_money, String card_owner) {
         super(source, id, message);
-        this.player_hand = player_hand;
+        this.new_card = new_card;
         this.player_money = player_money;
-        this.dealer_hand = dealer_hand;
+        this.card_owner = card_owner;
         System.out.println("Event Created.");
     }
     
-    public ArrayList<Card> getPlayer_Hand(){
-    	return this.player_hand;
+    public Card getNew_Card(){
+    	return this.new_card;
     }
     
-    public ArrayList<Card> getDealer_Hand(){
-    	return this.dealer_hand;
+    public String getCard_Owner(){
+    	return this.card_owner;
+    }
+    
+    public int getPlayer_Money(){
+    	return this.player_money;
     }
     
 }

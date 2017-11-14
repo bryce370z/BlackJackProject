@@ -2,7 +2,9 @@ package blackjack;
 import mvc.*;
 
 public class BlackjackController extends AbstractController{
+	private boolean started;
 	public BlackjackController(){
+		started = false;
 		setModel(new BlackjackModel());
 		setView(new BlackjackView((BlackjackModel)getModel(),this));
 		((JFrameView)getView()).setVisible(true);
@@ -10,14 +12,28 @@ public class BlackjackController extends AbstractController{
 	}
 	
 	public void operation(String op){
-		if(op.equals(BlackjackView.START)){
+		switch(op){
+		case BlackjackView.START:
 			System.out.println("Controller: START.");
-			((BlackjackModel)getModel()).startGame();
-		}
-		if(op.equals(BlackjackView.HIT)){
+			if(started == false){
+				((BlackjackModel)getModel()).startGame();
+			}
+			started = true;
+			break;
+		case BlackjackView.HIT:
 			System.out.println("Controller: HIT.");
-			((BlackjackModel)getModel()).Hit();
+			if(started){
+				((BlackjackModel)getModel()).Hit(((BlackjackModel)getModel()).getPlayer());
+			}
+			break;
+		case BlackjackView.STAY:
+			System.out.println("Controller: STAY.");
+			if(started){
+				((BlackjackModel)getModel()).Stay();
+			}
+			break;
 		}
+			
 			
 	}
 }

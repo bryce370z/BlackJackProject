@@ -17,16 +17,21 @@ public class BlackjackView extends JFrameView{
 	public static final String STAY = "STAY";
 	public static final String START = "START";
 	
-	public ArrayList<Card> dealer_hand = new ArrayList<Card>();
-	public ArrayList<Card> player_hand = new ArrayList<Card>();
+	// public ArrayList<Card> dealer_hand = new ArrayList<Card>();
+	// public ArrayList<Card> player_hand = new ArrayList<Card>();
 	
-	public JLabel[] dealer_card_images = new JLabel[10];
-	public JLabel[] player_card_images = new JLabel[10];
+	private JLabel[] dealer_card_images = new JLabel[10];
+	private JLabel[] player_card_images = new JLabel[10];
+	
+	private int player_card_index;
+	private int dealer_card_index;
 	
 	//JLabel dealer_card1 = new JLabel();
 
 	public BlackjackView(BlackjackModel model, BlackjackController controller) {
 		super(model, controller);
+		player_card_index = 0;
+		dealer_card_index = 0;
 		// initialize frame
 		JFrame frame = new JFrame();
 		
@@ -98,9 +103,28 @@ public class BlackjackView extends JFrameView{
 	
 	@Override
     public void modelChanged(ModelEvent event) {
-    	player_hand = event.getPlayer_Hand();
-    	dealer_hand = event.getDealer_Hand();
+		/*
+		ArrayList<Card> player_hand = event.getPlayer_Hand();
+		ArrayList<Card> dealer_hand = event.getDealer_Hand();
+		*/
+		String card_owner = event.getCard_Owner();
+		String img_path  = event.getNew_Card().getImg_Path();
+		JLabel label = new JLabel();
+		System.out.println(player_card_index);
     	try{
+    		switch(card_owner){
+    		case "Player":
+    			label = player_card_images[player_card_index];
+    			label.setIcon(ScaleImage(label, img_path));
+    			player_card_index++;
+    			break;
+    		case "Dealer":
+    			label = dealer_card_images[dealer_card_index];
+    			label.setIcon(ScaleImage(label, img_path));
+    			dealer_card_index++;
+    			break;
+    		}
+    		/*
     		for(int i = 0; i < player_hand.size(); i++){
     			String img_path = player_hand.get(i).getImg_Path();
     			JLabel label = player_card_images[i];
@@ -112,6 +136,7 @@ public class BlackjackView extends JFrameView{
     			JLabel label = dealer_card_images[i];
     			label.setIcon(ScaleImage(label, img_path));
     		}
+    		*/
     		
     	} catch(IOException e){
     		System.out.println("IOException");
